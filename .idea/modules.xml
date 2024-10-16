@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Java_class.iml" filepath="$PROJECT_DIR$/.idea/Java_class.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homework_code/chapter_4/chapter_4.iml" filepath="$PROJECT_DIR$/homework_code/chapter_4/chapter_4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homework_code/chapter_5/chapter_5.iml" filepath="$PROJECT_DIR$/homework_code/chapter_5/chapter_5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homework_code/chapter_6/chapter_6.iml" filepath="$PROJECT_DIR$/homework_code/chapter_6/chapter_6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homework_code/chapter_7/chapter_7.iml" filepath="$PROJECT_DIR$/homework_code/chapter_7/chapter_7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homework_code/chapter_8/chapter_8.iml" filepath="$PROJECT_DIR$/homework_code/chapter_8/chapter_8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/da02/da02.iml" filepath="$PROJECT_DIR$/basic_code/da02/da02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/day03/day03.iml" filepath="$PROJECT_DIR$/basic_code/day03/day03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/day04/day04.iml" filepath="$PROJECT_DIR$/basic_code/day04/day04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/day06/day06.iml" filepath="$PROJECT_DIR$/basic_code/day06/day06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/day07/day07.iml" filepath="$PROJECT_DIR$/basic_code/day07/day07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/day08/day08.iml" filepath="$PROJECT_DIR$/basic_code/day08/day08.iml" />
+      <module fileurl="file://$PROJECT_DIR$/basic_code/day09/day09.iml" filepath="$PROJECT_DIR$/basic_code/day09/day09.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fastLearn/fastLearn.iml" filepath="$PROJECT_DIR$/fastLearn/fastLearn.iml" />
+    </modules>
+  </component>
+</project>
