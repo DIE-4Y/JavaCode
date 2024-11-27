@@ -21,7 +21,7 @@ public class ArrayExercise01 {
 
         Arrays.sort(books, new Comparator() {
             @Override
-            public int compare(Object o1, Object o2) {
+            public int compare(Object o1, Object o2) {  //compare 必须返回整数！！！
                 Book book1 = (Book)o1;
                 Book book2 = (Book)o2;
 //                return book1.getPrice()-book2.getPrice(); //价格升序
