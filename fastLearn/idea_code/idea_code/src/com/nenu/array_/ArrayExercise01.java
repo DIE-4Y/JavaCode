@@ -18,12 +18,11 @@ public class ArrayExercise01 {
 //                return n1 - n2;   //从小到大排序
 //            }
 //        });
-
         Arrays.sort(books, new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {  //compare 必须返回整数！！！
-                Book book1 = (Book)o1;
-                Book book2 = (Book)o2;
+                Book book1 = (Book) o1;
+                Book book2 = (Book) o2;
 //                return book1.getPrice()-book2.getPrice(); //价格升序
 //                return book2.getPrice()-book1.getPrice();   //价格降序
                 return book1.getName().length() - book2.getName().length(); //名字长度升序
