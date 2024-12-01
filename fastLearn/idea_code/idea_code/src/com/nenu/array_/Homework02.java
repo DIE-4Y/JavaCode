@@ -1,6 +1,6 @@
 package com.nenu.array_;
 
-public class Homework06 {
+public class Homework02 {
     public static void main(String[] args) {
         String username = "dz";
         String password = "676666";
