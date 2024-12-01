@@ -1,5 +1,7 @@
 package com.nenu.collection_;
 
+import com.nenu.enum_.Dog;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -19,6 +21,7 @@ public class CollectionExercise01 {
         doglist.add(new Dog("小亮", 30));
 
         //迭代器实现遍历ArrayList
+        //itit 快捷键生成迭代器遍历
         System.out.println("===========迭代器实现遍历ArrayList========");
         Iterator iterator = doglist.iterator();
         while (iterator.hasNext()) {
