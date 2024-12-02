@@ -1,7 +1,5 @@
 package com.nenu.collection_;
 
-import com.nenu.enum_.Dog;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
