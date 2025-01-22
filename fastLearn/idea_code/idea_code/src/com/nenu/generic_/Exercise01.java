@@ -1,6 +1,5 @@
 package com.nenu.generic_;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.util.*;
 
 public class Exercise01 {
