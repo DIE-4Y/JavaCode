@@ -6,15 +6,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 
 public class MyPanel extends JPanel implements KeyListener {
 
     MyTank myTank = null;
+    Vector<EnemyTank> enemyTanks = new Vector<>();  //Vector线程安全用于存放敌方坦克
+    int enemyCount = 3;
 
     public MyPanel() {
         //我的坦克位置初始化
         this.myTank = new MyTank(100, 100);
-
+        //敌方坦克位置初始化
+        for (int i = 1; i <= enemyCount; i++) {
+            enemyTanks.add(new EnemyTank((100 * i), 0));
+        }
     }
 
 
@@ -25,6 +31,10 @@ public class MyPanel extends JPanel implements KeyListener {
         g.fillRect(0, 0, 1000, 750);
         //调用画坦克的方法 -- 从我的坦克获取坐标
         drawTank(myTank.getX(), myTank.getY(), myTank.getDirection(), 0, g);
+        for (int i = 0; i < enemyTanks.size(); i++) {
+            EnemyTank enemyTank = enemyTanks.get(i);
+            drawTank(enemyTank.getX(),enemyTank.getY(), enemyTank.getDirection(), 1, g);
+        }
     }
 
 
@@ -57,14 +67,14 @@ public class MyPanel extends JPanel implements KeyListener {
                 break;
             case 4:         //朝左方
                 g.fill3DRect(x, y, 60, 10, false);//左履带
-                g.fill3DRect(x, y+30, 60, 10, false);//右履带
+                g.fill3DRect(x, y + 30, 60, 10, false);//右履带
                 g.fill3DRect(x + 10, y + 10, 40, 20, false);//坦克主体
                 g.drawOval(x + 20, y + 10, 20, 20);//坦克盖子
                 g.drawLine(x + 30, y + 20, x, y + 20);//坦克炮筒
                 break;
             case 6:         //朝向右方
                 g.fill3DRect(x, y, 60, 10, false);//左履带
-                g.fill3DRect(x, y+30, 60, 10, false);//右履带
+                g.fill3DRect(x, y + 30, 60, 10, false);//右履带
                 g.fill3DRect(x + 10, y + 10, 40, 20, false);//坦克主体
                 g.drawOval(x + 20, y + 10, 20, 20);//坦克盖子
                 g.drawLine(x + 30, y + 20, x + 60, y + 20);//坦克炮筒
