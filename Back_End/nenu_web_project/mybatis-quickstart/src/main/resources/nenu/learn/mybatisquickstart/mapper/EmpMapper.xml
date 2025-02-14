@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nenu.learn.mybatisquickstart.mapper.EmpMapper">
+    <!--sql可将部分重用代码装入 使用include重用-->
+    <sql id="selectAll">
+        select id,
+               username,
+               password,
+               name,
+               gender,
+               image,
+               job,
+               entrydate,
+               dept_id,
+               create_time,
+               update_time
+        from emp
+    </sql>
+
+    <!--修改update方法-->
+    <update id="empUpdate">
+        update emp
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="gender != null">gender =#{gender},</if>
+            <if test="image != null">image =#{image},</if>
+            <if test="job != null">job =#{job},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="updateTime != null">update_time = #{updateTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--批量删除员工-->
+    <!--foreach用于批量处理 collection表示遍历集合 item单个元素 separator分隔符 open开头 close结尾-->
+    <delete id="empDeleteById">
+        delete
+        from emp
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>;
+    </delete>
+
+    <!--resultType是单条记录封装类型-->
+    <!--模糊查询-->
+    <select id="empList" resultType="nenu.learn.mybatisquickstart.pojo.Emp">
+        <include refid="selectAll"></include>
+        /*where标签会自动去掉重复的and*/
+        <where>
+
+            <!--if 动态sql-->
+            <if test="name != null">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="begin != null and end != null">
+                and entrydate between #{begin} and #{end}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
+
+</mapper>

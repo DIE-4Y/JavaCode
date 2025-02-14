@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -59,15 +60,16 @@ class MybatisQuickstartApplicationTests {
         // 加了注解才能获取自增长的id
         System.out.println(emp.getId());
     }
+
     @Test
     public void empUpdateTest() {
         Emp emp = new Emp();
         emp.setId(19);
-        emp.setName("汤姆1");
-        emp.setUsername("Tom1");
-        emp.setImage("1.jpg");
-        emp.setGender((short) 1);
-        emp.setJob((short) 1);
+        emp.setName("汤姆0");
+//        emp.setUsername("Tom1");
+//        emp.setImage("1.jpg");
+//        emp.setGender((short) 1);
+//        emp.setJob((short) 1);
         emp.setEntrydate(LocalDate.of(1, 1, 1));
         emp.setUpdateTime(LocalDateTime.now());
         emp.setDeptId(1);
@@ -77,4 +79,25 @@ class MybatisQuickstartApplicationTests {
 
     }
 
+    @Test
+    public void empSelectTest() {
+        Emp emp = empMapper.empSelect(3);
+        System.out.println(emp);
+    }
+
+    @Test
+    public void empListTest() {
+//        List<Emp> empList =  empMapper.empList("张", (short)1, LocalDate.of(2010, 1, 1), LocalDate.of(2030, 1, 1));
+//        List<Emp> empList =  empMapper.empList("张", null, null, null);
+//        List<Emp> empList = empMapper.empList(null, (short)1, null, null);
+        List<Emp> empList =  empMapper.empList(null, null, null, null);
+        System.out.println(empList);
+    }
+
+
+    @Test
+    public void empDeleteTest2(){
+        List ids = Arrays.asList(19, 18);
+        empMapper.empDeleteById(ids);
+    }
 }
