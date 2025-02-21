@@ -36,6 +36,9 @@ public interface EmpMapper {
 
     void updateEmp(Emp emp);
 
+    @Select("select * from emp where username=#{username} and password=#{password}")
+    Emp findByIdAndPassword(Emp emp);
+
 
     //public List<Emp> pageList(String name, Short gender,LocalDate begin,LocalDate end);
     /**
