@@ -10,7 +10,9 @@ public class TankGame01 extends JFrame {
 
     //JFrame初始化
     public TankGame01() {
-        this.mp = new MyPanel();                                //初始化我的图形面板
+        this.mp = new MyPanel(); //初始化我的图形面板
+        Thread thread =new Thread(mp);
+        thread.start();
         this.add(mp);                                           //加入我的图形 坦克、河流等
         this.addKeyListener(mp);
         this.setSize(1000, 750);                   //设置窗口大小

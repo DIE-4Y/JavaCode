@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Vector;
 
-public class MyPanel extends JPanel implements KeyListener {
+public class MyPanel extends JPanel implements KeyListener,Runnable {
 
     MyTank myTank = null;
     Vector<EnemyTank> enemyTanks = new Vector<>();  //Vector线程安全用于存放敌方坦克
@@ -31,15 +31,20 @@ public class MyPanel extends JPanel implements KeyListener {
         g.fillRect(0, 0, 1000, 750);
         //调用画坦克的方法 -- 从我的坦克获取坐标
         drawTank(myTank.getX(), myTank.getY(), myTank.getDirection(), 0, g);
+        //画子弹 条件有顺序不然会有空指针异常
+        if (myTank.getBullet() != null && myTank.getBullet().isLive()) {
+            System.out.println("子弹被调用");
+            g.draw3DRect(myTank.getBullet().getX(), myTank.getBullet().getY(), 2, 2, false);
+        }
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
-            drawTank(enemyTank.getX(),enemyTank.getY(), enemyTank.getDirection(), 1, g);
+            drawTank(enemyTank.getX(), enemyTank.getY(), enemyTank.getDirection(), 1, g);
         }
     }
 
-
+    // 画坦克
     public void drawTank(int x, int y, int direction, int type, Graphics g) {
-//        System.out.println("画坦克方法被调用");
+        //System.out.println("画坦克方法被调用");
         switch (type) {
             case 0:         //0 为自己青色
                 g.setColor(Color.cyan);
@@ -104,11 +109,27 @@ public class MyPanel extends JPanel implements KeyListener {
             myTank.setDirection(6);
             myTank.moveRight();
         }
+        // 按J发射子弹
+        if (e.getKeyCode() == KeyEvent.VK_J) {
+            myTank.shoot();
+        }
         this.repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            this.repaint();
+        }
     }
 }
