@@ -6,7 +6,6 @@ import edu.nenu.tliaswebserver.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String jwt = request.getHeader("token");
         if(!StringUtils.hasLength(jwt)){
             log.info("没有jwt令牌");
-            Result error = Result.error("NTO_LOGIN");
+            Result error = Result.error("NOT_LOGIN");
             response.getWriter().write(JSONObject.toJSONString(error));
             return false;
         }
@@ -48,7 +47,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             JwtUtils.parseJWT(jwt);
         } catch (Exception e) {
             log.info("令牌解析失败");
-            Result error = Result.error("NTO_LOGIN");
+            Result error = Result.error("NOT_LOGIN");
             response.getWriter().write(JSONObject.toJSONString(error));
             return false;
         }
@@ -59,13 +58,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     /**
      * 目标资源运行后执行
-     * @param request current HTTP request
-     * @param response current HTTP response
-     * @param handler the handler (or {@link HandlerMethod}) that started asynchronous
-     * execution, for type and/or instance examination
-     * @param modelAndView the {@code ModelAndView} that the handler returned
-     * (can also be {@code null})
-     * @throws Exception
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -74,13 +66,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     /**
      * 视图渲染后进行调用
-     * @param request current HTTP request
-     * @param response current HTTP response
-     * @param handler the handler (or {@link HandlerMethod}) that started asynchronous
-     * execution, for type and/or instance examination
-     * @param ex any exception thrown on handler execution, if any; this does not
-     * include exceptions that have been handled through an exception resolver
-     * @throws Exception
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

@@ -64,7 +64,12 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.83</version>
         </dependency>
-
+        <!--Aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>3.4.1</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

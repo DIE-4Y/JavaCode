@@ -1,5 +1,6 @@
 package edu.nenu.tliaswebserver.service.impl;
 
+import edu.nenu.tliaswebserver.aop.MyLog;
 import edu.nenu.tliaswebserver.mapper.DeptMapper;
 import edu.nenu.tliaswebserver.pojo.Dept;
 import edu.nenu.tliaswebserver.pojo.DeptLog;
@@ -24,6 +25,7 @@ public class DeptServiceImp implements DeptService {
     private DeptLogService deptLogService;
 
     //查询所有部门
+    @MyLog
     @Override
     public List<Dept> deptList() {
         return deptMapper.getDept();
@@ -35,6 +37,7 @@ public class DeptServiceImp implements DeptService {
      * @Transactional自动共开启事物 -成功：提交事务 -失败：回滚事务
      * rollbackFor指定异常类型 否则只有RuntimeException才会回滚
      */
+    @MyLog
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(Integer id) {
