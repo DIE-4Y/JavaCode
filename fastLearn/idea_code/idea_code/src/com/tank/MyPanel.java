@@ -17,9 +17,14 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     public MyPanel() {
         //我的坦克位置初始化
         this.myTank = new MyTank(100, 100);
+        myTank.setSpeed(4);
         //敌方坦克位置初始化
         for (int i = 1; i <= enemyCount; i++) {
             EnemyTank enemyTank = new EnemyTank((100 * i), 0);
+            //设置坦克方向
+            enemyTank.setDirection(2);
+            //启动坦克线程
+            new Thread(enemyTank).start();
             //初始化的时候添加子弹
             Bullet bullet = new Bullet(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
             enemyTank.getBullets().add(bullet);
@@ -60,7 +65,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     }
                 }
 
-            }else {
+            } else {
                 enemyTanks.remove(enemyTank);
             }
         }

@@ -27,22 +27,22 @@ public class Tank {
     }
 
     public void moveUp() {
-        if (y - 1 > 0)
+        if (y > 0)
             y--;
     }
 
     public void moveDown() {
-        if (y + 1 < 750)
+        if (y + 60 < 750)
             y++;
     }
 
     public void moveLeft() {
-        if (x - 1 > 0)
+        if (x > 0)
             x--;
     }
 
     public void moveRight() {
-        if (x + 1 < 1200)
+        if (x + 60 < 1000)
             x++;
     }
 

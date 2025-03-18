@@ -2,7 +2,7 @@ package com.tank;
 
 import java.util.Vector;
 
-public class EnemyTank extends Tank{
+public class EnemyTank extends Tank implements Runnable {
     private Vector<Bullet> bullets = new Vector<>();
 
     public Vector<Bullet> getBullets() {
@@ -16,5 +16,66 @@ public class EnemyTank extends Tank{
     public EnemyTank(int x, int y) {
         super(x, y);
         setDirection(2);
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            //移动
+            switch (getDirection()) {
+                case 8:
+                    for (int i = 0; i < 30; i++) {
+                        moveUp();
+                        try {
+                            Thread.sleep(500);
+                            System.out.println(Thread.currentThread().getName()+"休眠中");
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < 30; i++) {
+                        moveDown();
+                        try {
+                            Thread.sleep(50);
+                            System.out.println(Thread.currentThread().getName()+"休眠中");
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    break;
+                case 4:
+                    for (int i = 0; i < 30; i++) {
+                        moveLeft();
+                        try {
+                            Thread.sleep(50);
+                            System.out.println(Thread.currentThread().getName()+"休眠中");
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    break;
+                case 6:
+                    for (int i = 0; i < 30; i++) {
+                        moveRight();
+                        try {
+                            Thread.sleep(50);
+                            System.out.println(Thread.currentThread().getName()+"休眠中");
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    break;
+            }
+            //随机转向
+            int direct = ((int) (Math.random() * 4 + 1))*2;
+            setDirection(direct);
+            System.out.println(Thread.currentThread().getName()+"休眠完成");
+            System.out.println("改变方向："+direct+"，转向开始");
+            if (!getLive()) {
+                break;
+            }
+        }
     }
 }
