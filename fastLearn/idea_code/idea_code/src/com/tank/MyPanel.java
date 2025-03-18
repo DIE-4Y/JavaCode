@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Vector;
 
-public class MyPanel extends JPanel implements KeyListener,Runnable {
+public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     MyTank myTank = null;
     Vector<EnemyTank> enemyTanks = new Vector<>();  //Vector线程安全用于存放敌方坦克
@@ -19,7 +19,12 @@ public class MyPanel extends JPanel implements KeyListener,Runnable {
         this.myTank = new MyTank(100, 100);
         //敌方坦克位置初始化
         for (int i = 1; i <= enemyCount; i++) {
-            enemyTanks.add(new EnemyTank((100 * i), 0));
+            EnemyTank enemyTank = new EnemyTank((100 * i), 0);
+            //初始化的时候添加子弹
+            Bullet bullet = new Bullet(enemyTank.getX()+20, enemyTank.getY()+60, enemyTank.getDirection());
+            enemyTank.getBullets().add(bullet);
+            new Thread(bullet).start();     //启动线程
+            enemyTanks.add(enemyTank);
         }
     }
 
@@ -36,13 +41,26 @@ public class MyPanel extends JPanel implements KeyListener,Runnable {
             System.out.println("子弹被调用");
             g.draw3DRect(myTank.getBullet().getX(), myTank.getBullet().getY(), 2, 2, false);
         }
+        //画敌方坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
             drawTank(enemyTank.getX(), enemyTank.getY(), enemyTank.getDirection(), 1, g);
+            //画子弹
+            for (int j = 0; j < enemyTank.getBullets().size(); j++) {
+                //取出子弹
+                Bullet bullet = enemyTank.getBullets().get(j);
+                //绘制子弹 有条件
+                if (bullet.isLive()) {
+                    g.draw3DRect(bullet.getX(), bullet.getY(), 2, 2, false);
+                }else {
+                    //移除子弹
+                    enemyTank.getBullets().remove(bullet);
+                }
+            }
         }
     }
 
-    // 画坦克
+    //画坦克
     public void drawTank(int x, int y, int direction, int type, Graphics g) {
         //System.out.println("画坦克方法被调用");
         switch (type) {
@@ -123,7 +141,7 @@ public class MyPanel extends JPanel implements KeyListener,Runnable {
 
     @Override
     public void run() {
-        while (true){
+        while (true) {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
