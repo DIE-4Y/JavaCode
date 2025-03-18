@@ -27,19 +27,23 @@ public class Tank {
     }
 
     public void moveUp() {
-        y--;
+        if (y - 1 > 0)
+            y--;
     }
 
     public void moveDown() {
-        y++;
+        if (y + 1 < 750)
+            y++;
     }
 
     public void moveLeft() {
-        x--;
+        if (x - 1 > 0)
+            x--;
     }
 
     public void moveRight() {
-        x++;
+        if (x + 1 < 1200)
+            x++;
     }
 
     public int getDirection() {
