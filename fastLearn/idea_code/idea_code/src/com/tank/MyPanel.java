@@ -41,11 +41,21 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         g.fillRect(0, 0, 1000, 750);
         //调用画坦克的方法 -- 从我的坦克获取坐标
         drawTank(myTank.getX(), myTank.getY(), myTank.getDirection(), 0, g);
-        //画子弹 条件有顺序不然会有空指针异常
-        if (myTank.getBullet() != null && myTank.getBullet().isLive()) {
-            System.out.println("子弹被调用");
-            g.draw3DRect(myTank.getBullet().getX(), myTank.getBullet().getY(), 2, 2, false);
+        //画子弹
+        //2.多颗子弹
+        for (int i = 0; i < myTank.getBullets().size(); i++) {
+            Bullet bullet = myTank.getBullets().get(i);
+            if (bullet != null && bullet.isLive()) {//某一个子弹可能击中后销毁
+                g.draw3DRect(bullet.getX(), bullet.getY(), 2, 2, false);
+            } else {//子弹没了从集合里去掉
+                myTank.getBullets().remove(bullet);
+            }
         }
+//        //1.单颗子弹 条件有顺序不然会有空指针异常
+//        if (myTank.getBullet() != null && myTank.getBullet().isLive()) {
+//            System.out.println("子弹被调用");
+//            g.draw3DRect(myTank.getBullet().getX(), myTank.getBullet().getY(), 2, 2, false);
+//        }
         //画敌方坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
@@ -119,27 +129,48 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
     }
 
     //判断子弹是否击中坦克 如果击中修改坦克和子弹的属性
-    public void hitTank(Bullet bullet, Tank tank) {
-        switch (tank.getDirection()) {
-            case 8:
-            case 2:
-                if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 40
-                        && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 60) {
-//                    System.out.println("=============敌方已被击中=============");
-                    bullet.setLive(false);
-                    tank.setLive(false);
+    public void hitTank(Vector<Bullet> bullets, Tank tank) {
+        for (Bullet bullet : bullets) {
+            if (bullet != null && bullet.isLive()) {
+                switch (tank.getDirection()) {
+                    case 8:
+                    case 2:
+                        if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 40
+                                && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 60) {
+                            bullet.setLive(false);
+                            tank.setLive(false);
+                        }
+                        break;
+                    case 4:
+                    case 6:
+                        if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 60
+                                && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 40) {
+                            bullet.setLive(false);
+                            tank.setLive(false);
+                        }
                 }
-                break;
-            case 4:
-            case 6:
-                if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 60
-                        && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 40) {
-//                    System.out.println("=============敌方已被击中=============");
-                    bullet.setLive(false);
-                    tank.setLive(false);
-                }
+            }
         }
     }
+//    public void hitTank(Bullet bullet, Tank tank) {
+//        switch (tank.getDirection()) {
+//            case 8:
+//            case 2:
+//                if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 40
+//                        && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 60) {
+//                    bullet.setLive(false);
+//                    tank.setLive(false);
+//                }
+//                break;
+//            case 4:
+//            case 6:
+//                if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 60
+//                        && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 40) {
+//                    bullet.setLive(false);
+//                    tank.setLive(false);
+//                }
+//        }
+//    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -181,11 +212,10 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            //重绘之前判断是否击中坦克--敌方坦克是否被击中
-            if (myTank.getBullet() != null && myTank.getLive()) {
-                for (int i = 0; i < enemyTanks.size(); i++) {
-                    EnemyTank enemyTank = enemyTanks.get(i);
-                    hitTank(myTank.getBullet(), enemyTank);
+            //重绘之前判断是否击中坦克--1.敌方坦克是否被击中
+            if (!myTank.getBullets().isEmpty() && myTank.getLive()) {
+                for (EnemyTank enemyTank : enemyTanks) {
+                    hitTank(myTank.getBullets(), enemyTank);
                 }
             }
             this.repaint();

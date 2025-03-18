@@ -28,7 +28,6 @@ public class EnemyTank extends Tank implements Runnable {
                         moveUp();
                         try {
                             Thread.sleep(500);
-                            System.out.println(Thread.currentThread().getName()+"休眠中");
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -39,7 +38,6 @@ public class EnemyTank extends Tank implements Runnable {
                         moveDown();
                         try {
                             Thread.sleep(50);
-                            System.out.println(Thread.currentThread().getName()+"休眠中");
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -50,7 +48,6 @@ public class EnemyTank extends Tank implements Runnable {
                         moveLeft();
                         try {
                             Thread.sleep(50);
-                            System.out.println(Thread.currentThread().getName()+"休眠中");
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -61,7 +58,6 @@ public class EnemyTank extends Tank implements Runnable {
                         moveRight();
                         try {
                             Thread.sleep(50);
-                            System.out.println(Thread.currentThread().getName()+"休眠中");
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -71,8 +67,6 @@ public class EnemyTank extends Tank implements Runnable {
             //随机转向
             int direct = ((int) (Math.random() * 4 + 1))*2;
             setDirection(direct);
-            System.out.println(Thread.currentThread().getName()+"休眠完成");
-            System.out.println("改变方向："+direct+"，转向开始");
             if (!getLive()) {
                 break;
             }
