@@ -60,6 +60,8 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                     }
                 }
 
+            }else {
+                enemyTanks.remove(enemyTank);
             }
         }
     }
@@ -118,6 +120,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             case 2:
                 if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 40
                         && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 60) {
+//                    System.out.println("=============敌方已被击中=============");
                     bullet.setLive(false);
                     tank.setLive(false);
                 }
@@ -126,6 +129,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             case 6:
                 if (bullet.getX() > tank.getX() && bullet.getX() < tank.getX() + 60
                         && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 40) {
+//                    System.out.println("=============敌方已被击中=============");
                     bullet.setLive(false);
                     tank.setLive(false);
                 }
@@ -172,7 +176,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            //重绘之前判断是否击中坦克--我方坦克是否击中
+            //重绘之前判断是否击中坦克--敌方坦克是否被击中
             if (myTank.getBullet() != null && myTank.getLive()) {
                 for (int i = 0; i < enemyTanks.size(); i++) {
                     EnemyTank enemyTank = enemyTanks.get(i);
