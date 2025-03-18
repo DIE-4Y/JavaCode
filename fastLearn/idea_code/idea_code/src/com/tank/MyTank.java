@@ -1,6 +1,6 @@
 package com.tank;
 
-/**
+/*
  * 我的坦克
  */
 public class MyTank extends Tank {

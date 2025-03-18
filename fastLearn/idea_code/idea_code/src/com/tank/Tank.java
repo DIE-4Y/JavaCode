@@ -8,6 +8,15 @@ public class Tank {
     private int y;
     private int direction;
     private int speed;
+    private Boolean isLive = true;
+
+    public Boolean getLive() {
+        return isLive;
+    }
+
+    public void setLive(Boolean live) {
+        isLive = live;
+    }
 
     public int getSpeed() {
         return speed;

@@ -11,6 +11,7 @@ public class Bullet implements Runnable {
     private int direction;
     private int speed = 2;
     private boolean isLive = true;
+
     public int getSpeed() {
         return speed;
     }
@@ -75,7 +76,7 @@ public class Bullet implements Runnable {
                     x += speed;
                     break;
             }
-            System.out.println("子弹位置("+x+","+y+")");
+            System.out.println("子弹位置(" + x + "," + y + ")");
             // 休眠
             try {
                 Thread.sleep(50);
@@ -83,9 +84,9 @@ public class Bullet implements Runnable {
                 throw new RuntimeException(e);
             }
             // 销毁条件
-            if (!(x >= 0 && x <= 1200 && y >= 0 && y <= 750)) {
+            if (!(x >= 0 && x <= 1200 && y >= 0 && y <= 750 && isLive)) {
                 System.out.println("子弹销毁");
-                isLive=false;
+                isLive = false;
                 break;
             }
         }
