@@ -33,6 +33,7 @@ public class FileCreate {
      */
     @Test
     public void fileCreate02(){
+        //转义路径可更换为 D:/ 等价于 D:\
         String parentPath = "D:\\";
         String childrenFile = "news02.txt";
         File file = new File(parentPath, childrenFile);
