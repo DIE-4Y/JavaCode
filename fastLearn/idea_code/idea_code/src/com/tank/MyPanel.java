@@ -1,7 +1,5 @@
 package com.tank;
 
-import com.sun.corba.se.impl.orb.ParserTable;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
