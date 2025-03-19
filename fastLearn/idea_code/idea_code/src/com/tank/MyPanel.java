@@ -14,7 +14,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     public MyPanel() {
         //我的坦克位置初始化
-        this.myTank = new MyTank(100, 100);
+        this.myTank = new MyTank(100, 300);
         myTank.setSpeed(4);
         //敌方坦克位置初始化
         for (int i = 1; i <= enemyCount; i++) {
@@ -37,23 +37,27 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         super.paint(g);
         //背景填充颜色， 默认为黑色
         g.fillRect(0, 0, 1000, 750);
-        //调用画坦克的方法 -- 从我的坦克获取坐标
-        drawTank(myTank.getX(), myTank.getY(), myTank.getDirection(), 0, g);
-        //画子弹
-        //2.多颗子弹
-        for (int i = 0; i < myTank.getBullets().size(); i++) {
-            Bullet bullet = myTank.getBullets().get(i);
-            if (bullet != null && bullet.isLive()) {//某一个子弹可能击中后销毁
-                g.draw3DRect(bullet.getX(), bullet.getY(), 2, 2, false);
-            } else {//子弹没了从集合里去掉
-                myTank.getBullets().remove(bullet);
+        //判断我的坦克是否存活
+        if (myTank.getLive()) {
+            //调用画坦克的方法 -- 从我的坦克获取坐标
+            drawTank(myTank.getX(), myTank.getY(), myTank.getDirection(), 0, g);
+            //画子弹
+            //2.多颗子弹
+            for (int i = 0; i < myTank.getBullets().size(); i++) {
+                Bullet bullet = myTank.getBullets().get(i);
+                if (bullet != null && bullet.isLive()) {//某一个子弹可能击中后销毁
+                    g.draw3DRect(bullet.getX(), bullet.getY(), 2, 2, false);
+                } else {//子弹没了从集合里去掉
+                    myTank.getBullets().remove(bullet);
+                }
             }
-        }
 //        //1.单颗子弹 条件有顺序不然会有空指针异常
 //        if (myTank.getBullet() != null && myTank.getBullet().isLive()) {
 //            System.out.println("子弹被调用");
 //            g.draw3DRect(myTank.getBullet().getX(), myTank.getBullet().getY(), 2, 2, false);
 //        }
+        }
+
         //画敌方坦克
         for (int i = 0; i < enemyTanks.size(); i++) {
             EnemyTank enemyTank = enemyTanks.get(i);
@@ -91,7 +95,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 break;
 
         }
-
         switch (direction) {
             case 8:         //朝上方
                 g.fill3DRect(x, y, 10, 60, false);//左履带
@@ -210,10 +213,19 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            //重绘之前判断是否击中坦克--1.敌方坦克是否被击中
+            //重绘之前判断是否击中坦克--
+            //1.敌方坦克是否被击中
             if (!myTank.getBullets().isEmpty() && myTank.getLive()) {
                 for (EnemyTank enemyTank : enemyTanks) {
                     hitTank(myTank.getBullets(), enemyTank);
+                }
+            }
+            //2.我方坦克是否被击中
+            if (myTank.getLive()){  //我方坦克存活再判断
+                for (EnemyTank enemyTank : enemyTanks) {
+                    if (enemyTank.getLive()) {
+                        hitTank(enemyTank.getBullets(), myTank);
+                    }
                 }
             }
             this.repaint();
