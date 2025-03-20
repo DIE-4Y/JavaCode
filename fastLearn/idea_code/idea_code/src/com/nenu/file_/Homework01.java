@@ -2,6 +2,7 @@ package com.nenu.file_;
 
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -25,6 +26,9 @@ public class Homework01 {
             System.out.println("正在创建文件");
             if (file.createNewFile()) {
                 System.out.println("文件创建成功");
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write("hello, world~~");
+                fileWriter.close();
             }else {
                 System.out.println("文件创建失败");
             }
