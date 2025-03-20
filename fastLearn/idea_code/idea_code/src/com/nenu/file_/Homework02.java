@@ -16,6 +16,6 @@ public class Homework02 {
             System.out.println(rows + ": " + s);
             ++rows;
         }
-
+        bufferedReader.close();
     }
 }
