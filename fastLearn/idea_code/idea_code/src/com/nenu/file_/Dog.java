@@ -1,6 +1,8 @@
 package com.nenu.file_;
 
-public class Dog {
+import java.io.Serializable;
+
+public class Dog implements Serializable {
     String name;
     int age;
     String color;
