@@ -4,10 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 public class MyPanel extends JPanel implements KeyListener, Runnable {
@@ -36,10 +32,22 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         }
     }
 
+    //侧边栏画上记录
+    public void showInfo(Graphics g) {
+        g.setColor(Color.black);
+        Font font = new Font("宋体", Font.BOLD, 25);
+        g.setFont(font);
+        g.drawString("累计击毁坦克数", 1020, 30);
+
+        drawTank(1020, 60, 8, 1, g);
+        g.setColor(Color.black);
+        g.drawString(Recorder.getAllEnemyTankCount() + "", 1080, 100);
+    }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        showInfo(g);
         //背景填充颜色， 默认为黑色
         g.fillRect(0, 0, 1000, 750);
         //判断我的坦克是否存活
@@ -87,16 +95,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             }
         }
     }
-
-//    public void saveEnemyTank(Vector<EnemyTank> enemyTanks) throws IOException {
-//        System.out.println("正在保存敌方坦克");
-//        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src:\\com\\tank\\enemyTanks.dat"));
-//        for (EnemyTank enemyTank :enemyTanks) {
-//            oos.writeObject(enemyTank);
-//        }
-//        System.out.println("保存成功");
-//        oos.close();
-//    }
 
 
     //画坦克
@@ -156,6 +154,9 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                                 && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 60) {
                             bullet.setLive(false);
                             tank.setLive(false);
+                            if (tank instanceof EnemyTank) {
+                                Recorder.addEnemyTankCount();
+                            }
                         }
                         break;
                     case 4:
@@ -164,6 +165,9 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                                 && bullet.getY() > tank.getY() && bullet.getY() < tank.getY() + 40) {
                             bullet.setLive(false);
                             tank.setLive(false);
+                            if (tank instanceof EnemyTank) {
+                                Recorder.addEnemyTankCount();
+                            }
                         }
                 }
             }
@@ -237,7 +241,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 }
             }
             //2.我方坦克是否被击中
-            if (myTank.getLive()){  //我方坦克存活再判断
+            if (myTank.getLive()) {  //我方坦克存活再判断
                 for (EnemyTank enemyTank : enemyTanks) {
                     if (enemyTank.getLive()) {
                         hitTank(enemyTank.getBullets(), myTank);

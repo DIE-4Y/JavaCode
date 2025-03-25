@@ -25,7 +25,16 @@ public class EnemyTank extends Tank implements Runnable {
 
     //判断是否敌方坦克相互碰撞, 如果碰撞返回true 停止执行 否则 返回false
     public boolean isTouchEnemyTank() {
-        for (EnemyTank enemyTank : enemyTanks) {
+        //Vector里的数据会改变不用增强for
+//        for (EnemyTank enemyTank : enemyTanks) {
+//            if (this != enemyTank) {
+//                if (isTouched(enemyTank)) {
+//                    return true;
+//                }
+//            }
+//        }
+        for (int i = 0; i < enemyTanks.size(); i++) {
+            EnemyTank enemyTank = enemyTanks.get(i);
             if (this != enemyTank) {
                 if (isTouched(enemyTank)) {
                     return true;
