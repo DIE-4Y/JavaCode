@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 public class MyPanel extends JPanel implements KeyListener, Runnable {
@@ -19,6 +23,7 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         //敌方坦克位置初始化
         for (int i = 1; i <= enemyCount; i++) {
             EnemyTank enemyTank = new EnemyTank((100 * i), 0);
+            enemyTank.setEnemyTanks(enemyTanks);
             //设置坦克方向
             enemyTank.setDirection(2);
             //启动坦克线程
@@ -82,6 +87,17 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
             }
         }
     }
+
+//    public void saveEnemyTank(Vector<EnemyTank> enemyTanks) throws IOException {
+//        System.out.println("正在保存敌方坦克");
+//        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src:\\com\\tank\\enemyTanks.dat"));
+//        for (EnemyTank enemyTank :enemyTanks) {
+//            oos.writeObject(enemyTank);
+//        }
+//        System.out.println("保存成功");
+//        oos.close();
+//    }
+
 
     //画坦克
     public void drawTank(int x, int y, int direction, int type, Graphics g) {

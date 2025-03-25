@@ -4,6 +4,11 @@ import java.util.Vector;
 
 public class EnemyTank extends Tank implements Runnable {
     private Vector<Bullet> bullets = new Vector<>();
+    private Vector<EnemyTank> enemyTanks = null;
+
+    public void setEnemyTanks(Vector<EnemyTank> enemyTanks) {
+        this.enemyTanks = enemyTanks;
+    }
 
     public Vector<Bullet> getBullets() {
         return bullets;
@@ -17,6 +22,19 @@ public class EnemyTank extends Tank implements Runnable {
         super(x, y);
         setDirection(2);
     }
+
+    //判断是否敌方坦克相互碰撞, 如果碰撞返回true 停止执行 否则 返回false
+    public boolean isTouchEnemyTank() {
+        for (EnemyTank enemyTank : enemyTanks) {
+            if (this != enemyTank) {
+                if (isTouched(enemyTank)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public void run() {
@@ -45,7 +63,9 @@ public class EnemyTank extends Tank implements Runnable {
             switch (getDirection()) {
                 case 8:
                     for (int i = 0; i < 30; i++) {
-                        moveUp();
+                        if (!isTouchEnemyTank()) {
+                            moveUp();
+                        }
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
@@ -55,7 +75,9 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
                 case 2:
                     for (int i = 0; i < 30; i++) {
-                        moveDown();
+                        if (!isTouchEnemyTank()) {
+                            moveDown();
+                        }
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
@@ -65,7 +87,9 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
                 case 4:
                     for (int i = 0; i < 30; i++) {
-                        moveLeft();
+                        if (!isTouchEnemyTank()) {
+                            moveLeft();
+                        }
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
@@ -75,7 +99,9 @@ public class EnemyTank extends Tank implements Runnable {
                     break;
                 case 6:
                     for (int i = 0; i < 30; i++) {
-                        moveRight();
+                        if (!isTouchEnemyTank()) {
+                            moveRight();
+                        }
                         try {
                             Thread.sleep(50);
                         } catch (InterruptedException e) {
