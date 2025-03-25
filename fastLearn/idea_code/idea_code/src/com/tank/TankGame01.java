@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Scanner;
 
 public class TankGame01 extends JFrame {
 
@@ -12,7 +13,10 @@ public class TankGame01 extends JFrame {
 
     //JFrame初始化
     public TankGame01() {
-        this.mp = new MyPanel(); //初始化我的图形面板
+        System.out.println("请输入：0.新开游戏， 1.继续游戏");
+        Scanner scanner = new Scanner(System.in);
+        String key = scanner.next();
+        this.mp = new MyPanel(key); //初始化我的图形面板
         Thread thread = new Thread(mp);
         thread.start();
         this.add(mp);                                           //加入我的图形 坦克、河流等

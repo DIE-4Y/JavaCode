@@ -10,26 +10,54 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
 
     MyTank myTank = null;
     Vector<EnemyTank> enemyTanks = new Vector<>();  //Vector线程安全用于存放敌方坦克
+    Vector<Node> nodes = new Vector<>();
     int enemyCount = 3;
 
-    public MyPanel() {
+    public MyPanel(String key) {
+        Recorder.setEnemyTanks(enemyTanks);
         //我的坦克位置初始化
         this.myTank = new MyTank(100, 300);
         myTank.setSpeed(4);
-        //敌方坦克位置初始化
-        for (int i = 1; i <= enemyCount; i++) {
-            EnemyTank enemyTank = new EnemyTank((100 * i), 0);
-            enemyTank.setEnemyTanks(enemyTanks);
-            //设置坦克方向
-            enemyTank.setDirection(2);
-            //启动坦克线程
-            new Thread(enemyTank).start();
-            //初始化的时候添加子弹
-            Bullet bullet = new Bullet(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
-            enemyTank.getBullets().add(bullet);
-            new Thread(bullet).start();     //启动线程
-            enemyTanks.add(enemyTank);
+        switch (key) {
+            case "0":
+                //敌方坦克位置初始化
+                for (int i = 1; i <= enemyCount; i++) {
+                    EnemyTank enemyTank = new EnemyTank((100 * i), 0);
+                    enemyTank.setEnemyTanks(enemyTanks);
+                    //设置坦克方向
+                    enemyTank.setDirection(2);
+                    //启动坦克线程
+                    new Thread(enemyTank).start();
+                    //初始化的时候添加子弹
+                    Bullet bullet = new Bullet(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
+                    enemyTank.getBullets().add(bullet);
+                    new Thread(bullet).start();     //启动线程
+                    enemyTanks.add(enemyTank);
+                }
+                break;
+            case "1":
+                nodes = Recorder.getAllEnemyTank();
+                for (int i = 0; i < nodes.size(); i++) {
+                    Node node = nodes.get(i);
+                    if (node != null) {
+                        EnemyTank enemyTank = new EnemyTank(node.getX(), node.getY());
+                        enemyTank.setEnemyTanks(enemyTanks);
+                        //设置坦克方向
+                        enemyTank.setDirection(node.getDirection());
+                        //启动坦克线程
+                        new Thread(enemyTank).start();
+                        //初始化的时候添加子弹
+                        Bullet bullet = new Bullet(enemyTank.getX() + 20, enemyTank.getY() + 60, enemyTank.getDirection());
+                        enemyTank.getBullets().add(bullet);
+                        new Thread(bullet).start();     //启动线程
+                        enemyTanks.add(enemyTank);
+                    }
+                }
+                break;
+            default:
+                System.out.println("输入错误~~~");
         }
+
     }
 
     //侧边栏画上记录
