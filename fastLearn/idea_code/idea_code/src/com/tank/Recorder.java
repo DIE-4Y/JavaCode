@@ -22,6 +22,10 @@ public class Recorder {
         return nodes;
     }
 
+    public static String getFilePath() {
+        return filePath;
+    }
+
     public static void setNodes(Vector<Node> nodes) {
         Recorder.nodes = nodes;
     }

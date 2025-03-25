@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Vector;
 
 public class MyPanel extends JPanel implements KeyListener, Runnable {
@@ -17,6 +18,13 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
         Recorder.setEnemyTanks(enemyTanks);
         //我的坦克位置初始化
         this.myTank = new MyTank(100, 300);
+        File file = new File(Recorder.getFilePath());
+        if(file.exists()){
+            nodes = Recorder.getAllEnemyTank();
+        }else {
+            key = "0";
+            System.out.println("没找到保存文件，只能开始新游戏");
+        }
         myTank.setSpeed(4);
         switch (key) {
             case "0":
@@ -36,7 +44,6 @@ public class MyPanel extends JPanel implements KeyListener, Runnable {
                 }
                 break;
             case "1":
-                nodes = Recorder.getAllEnemyTank();
                 for (int i = 0; i < nodes.size(); i++) {
                     Node node = nodes.get(i);
                     if (node != null) {
