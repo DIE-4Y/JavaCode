@@ -19,17 +19,18 @@ public class TcpFileCopyServer {
         byte[] data = StringUtils.streamToByteArray(bis);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(storePath));
         bos.write(data);
-        bos.close();
+        bos.flush();
 
         //返回消息
-        OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
-        osw.write("文件复制成功~~");
-        osw.flush();
-        osw.close();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        bw.write("文件复制成功~~");
+        bw.flush();
         socket.shutdownOutput();
 
-        //关闭流
+        //关闭流和其他内容
+        bw.close();
         bis.close();
+        bos.close();
         socket.close();
         serverSocket.close();
 

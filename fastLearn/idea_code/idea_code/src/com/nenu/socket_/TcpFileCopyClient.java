@@ -17,14 +17,17 @@ public class TcpFileCopyClient {
         //发送文件
         BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
         bos.write(data);
-        bos.close();
+        bos.flush();
         socket.shutdownOutput();//结束标志
 
         //接收消息
-        InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-        System.out.println(isr.read());
+        InputStream inputStream = socket.getInputStream();
+        String s = StringUtils.steamToString(inputStream);
+        System.out.println(s);
 
         //关闭流
+        inputStream.close();
+        bos.close();
         bis.close();
         socket.close();
     }
