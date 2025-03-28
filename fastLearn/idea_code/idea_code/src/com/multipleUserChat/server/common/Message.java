@@ -1,4 +1,4 @@
-package com.multipleUserChat.server;
+package com.multipleUserChat.server.common;
 
 import java.io.Serializable;
 

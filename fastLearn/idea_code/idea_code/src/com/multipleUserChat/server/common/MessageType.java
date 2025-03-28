@@ -1,4 +1,4 @@
-package com.multipleUserChat.server;
+package com.multipleUserChat.server.common;
 
 public interface MessageType {
     String MESSAGE_LOGIN_SUCCEED="1";//登录成功返回1
