@@ -1,4 +1,4 @@
-package com.multipleUserChat.client;
+package com.multipleUserChat.client.common;
 
 import java.io.Serializable;
 
@@ -24,6 +24,9 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public User() {
     }
 
     public User(String usrId, String password) {
