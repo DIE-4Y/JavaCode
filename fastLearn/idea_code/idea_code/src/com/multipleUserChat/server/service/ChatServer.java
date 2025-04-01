@@ -1,17 +1,34 @@
 package com.multipleUserChat.server.service;
 
-import com.multipleUserChat.server.common.Message;
-import com.multipleUserChat.server.common.MessageType;
-import com.multipleUserChat.server.common.User;
+import com.multipleUserChat.common.Message;
+import com.multipleUserChat.common.MessageType;
+import com.multipleUserChat.common.User;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatServer {
     ServerSocket serverSocket;
+
+    private static HashMap<String, User> validUsers = new HashMap<>();
+    //可使用ConcurrentHashMap--线程安全
+    //private static ConcurrentHashMap<String, User> validUsers = new ConcurrentHashMap<>();
+
+    //静态代码块，只初始化一次
+    static {
+        validUsers.put("100", new User("100", "1111"));
+        validUsers.put("200", new User("200", "1111"));
+        validUsers.put("300", new User("300", "1111"));
+        validUsers.put("400", new User("400", "1111"));
+        validUsers.put("紫霞仙子", new User("紫霞仙子", "1111"));
+        validUsers.put("至尊宝", new User("至尊宝", "1111"));
+        validUsers.put("许褚", new User("许褚", "1111"));
+    }
 
     public ChatServer() {
         try {
@@ -23,12 +40,12 @@ public class ChatServer {
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             User user = (User) ois.readObject();
             Message message = new Message();
-            if ("100".equals(user.getUsrId()) && "1111".equals(user.getPassword())) {
+            if (checkUser(user.getUsrId(), user.getPassword())) {
                 //如果合法就登录成功返回数据
                 message.setMsgType(MessageType.MESSAGE_LOGIN_SUCCEED);
                 oos.writeObject(message);
                 oos.flush();
-                socket.shutdownOutput();
+                System.out.println(user.getUsrId() + "登录成功");
                 //socket加入线程
                 ServerConnectClientThread thread = new ServerConnectClientThread(user.getUsrId(), socket);
                 thread.start();
@@ -53,5 +70,16 @@ public class ChatServer {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public boolean checkUser(String userId, String password) {
+        User user = validUsers.get(userId);
+        if (user == null) {
+            return false;
+        }
+        if (!user.getPassword().equals(password)) {
+            return false;
+        }
+        return true;
     }
 }

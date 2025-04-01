@@ -9,6 +9,7 @@ public class ManageServerConnectClientThreads {
     private static HashMap<String, ServerConnectClientThread> hashMap = new HashMap<>();
 
     public static void add(String userId, ServerConnectClientThread serverConnectClientThread) {
+        System.out.println("已将该线程纳入管理~~");
         hashMap.put(userId, serverConnectClientThread);
     }
 

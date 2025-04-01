@@ -1,4 +1,4 @@
-package com.multipleUserChat.client.common;
+package com.multipleUserChat.common;
 
 import java.io.Serializable;
 
@@ -52,6 +52,8 @@ public class Message implements Serializable {
     public void setMsgType(String msgType) {
         this.msgType = msgType;
     }
+
+    public Message(){}
 
     public Message(String sender, String receiver, String content, String sendTime) {
         this.sender = sender;

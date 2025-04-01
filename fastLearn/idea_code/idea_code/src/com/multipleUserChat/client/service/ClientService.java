@@ -1,8 +1,8 @@
 package com.multipleUserChat.client.service;
 
-import com.multipleUserChat.client.common.Message;
-import com.multipleUserChat.client.common.MessageType;
-import com.multipleUserChat.client.common.User;
+import com.multipleUserChat.common.Message;
+import com.multipleUserChat.common.MessageType;
+import com.multipleUserChat.common.User;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -34,6 +34,8 @@ public class ClientService {
             Socket socket = new Socket(InetAddress.getByName(properties.getProperty("serverIp")), Integer.parseInt(properties.getProperty("serverPort")));
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(user);//发送User到服务端
+            oos.flush();
+//            socket.shutdownOutput();
             //接收服务端发送的信息，并返回是否成功注册
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             Message message = (Message) ois.readObject();

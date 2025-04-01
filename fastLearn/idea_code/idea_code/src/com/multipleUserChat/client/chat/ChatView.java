@@ -1,20 +1,19 @@
 package com.multipleUserChat.client.chat;
 
-import com.multipleUserChat.client.common.User;
 import com.multipleUserChat.client.service.ClientService;
 import com.multipleUserChat.client.utils.Util;
 
 /**
  * 客户端主界面
  */
-public class ClientView {
+public class ChatView {
 
     private boolean loop = true;
     private char key;
-    private ClientService clientService;
+    private ClientService clientService = new ClientService();
 
     public static void main(String[] args) {
-        new ClientView().mainMenu();
+        new ChatView().mainMenu();
     }
 
     public void mainMenu() {

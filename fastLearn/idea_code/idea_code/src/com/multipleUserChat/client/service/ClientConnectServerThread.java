@@ -1,9 +1,7 @@
 package com.multipleUserChat.client.service;
 
-import com.multipleUserChat.client.common.Message;
+import com.multipleUserChat.common.Message;
 
-import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
