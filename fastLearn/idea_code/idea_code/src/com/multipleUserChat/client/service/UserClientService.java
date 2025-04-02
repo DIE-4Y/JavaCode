@@ -3,8 +3,6 @@ package com.multipleUserChat.client.service;
 import com.multipleUserChat.common.Message;
 import com.multipleUserChat.common.MessageType;
 import com.multipleUserChat.common.User;
-import com.multipleUserChat.server.service.ManageServerConnectClientThreads;
-import com.multipleUserChat.server.service.ServerConnectClientThread;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -14,7 +12,7 @@ import java.util.Properties;
 /**
  * 完成用户登录注册功能
  */
-public class ClientService {
+public class UserClientService {
     private boolean flag = false;
 
     private User user;
@@ -64,6 +62,20 @@ public class ClientService {
         message.setSender(user.getUsrId());
         message.setMsgType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
         //向客户端发送请求
+        sendMessage(message);
+    }
+
+    public void userExit(){
+        //用户退出
+        Message message = new Message();
+        message.setSender(user.getUsrId());
+        message.setMsgType(MessageType.MESSAGE_CLIENT_EXIT);
+        sendMessage(message);
+        System.out.println("========("+user.getUsrId()+")正在退出=======");
+        System.exit(0);
+    }
+
+    public void sendMessage(Message message){
         ClientConnectServerThread thread = ManageClientConnectServerThread.get(user.getUsrId());
         Socket socket = thread.getSocket();
         try {

@@ -25,4 +25,7 @@ public class ManageServerConnectClientThreads {
         return userList;
     }
 
+    public static void removeThread(String userId){
+        hashMap.remove(userId);
+    }
 }

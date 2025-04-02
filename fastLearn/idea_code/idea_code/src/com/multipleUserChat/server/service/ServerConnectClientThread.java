@@ -28,6 +28,12 @@ public class ServerConnectClientThread extends Thread {
                     message1.setContent(onlineUser);
                     message1.setReceiver(message.getSender());
                     oos.writeObject(message1);
+                }else if (message.getMsgType().equals(MessageType.MESSAGE_CLIENT_EXIT)){
+                    System.out.println(message.getSender()+" 正在退出~~");
+                    //关闭对应socket 移除对应线程并关闭
+                    ManageServerConnectClientThreads.removeThread(message.getSender());
+                    socket.close();
+                    break;
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

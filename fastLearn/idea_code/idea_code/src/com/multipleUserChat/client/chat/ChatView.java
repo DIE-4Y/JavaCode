@@ -1,6 +1,6 @@
 package com.multipleUserChat.client.chat;
 
-import com.multipleUserChat.client.service.ClientService;
+import com.multipleUserChat.client.service.UserClientService;
 import com.multipleUserChat.client.utils.Util;
 
 /**
@@ -10,7 +10,7 @@ public class ChatView {
 
     private boolean loop = true;
     private char key;
-    private ClientService clientService = new ClientService();
+    private UserClientService userClientService = new UserClientService();
 
     public static void main(String[] args) {
         new ChatView().mainMenu();
@@ -30,7 +30,7 @@ public class ChatView {
                     System.out.print("请输入密  码>>:");
                     String password = Util.getString(20);
                     //登录判断发送数据，进行连接
-                    if (clientService.checkUser(userId, password)) {
+                    if (userClientService.checkUser(userId, password)) {
                         System.out.println("==============欢迎 " + userId + "登录=============");
                         do {
                             System.out.println("==============欢迎登录网络通信二级菜单（" + userId + "）=============");
@@ -44,7 +44,7 @@ public class ChatView {
                             switch (key) {
                                 case '1':
                                     //获取在线用户列表
-                                    clientService.onlineFriendList();
+                                    userClientService.onlineFriendList();
                                     break;
                                 case '2':
                                     System.out.println("群发消息");
@@ -56,7 +56,7 @@ public class ChatView {
                                     System.out.println("发送文件");
                                     break;
                                 case '9':
-                                    System.out.println("========正在退出=======");
+                                    userClientService.userExit();
                                     loop = false;
                                     break;
                                 default:
