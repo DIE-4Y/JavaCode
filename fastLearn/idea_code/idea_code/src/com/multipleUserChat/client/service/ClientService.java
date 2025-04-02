@@ -3,6 +3,8 @@ package com.multipleUserChat.client.service;
 import com.multipleUserChat.common.Message;
 import com.multipleUserChat.common.MessageType;
 import com.multipleUserChat.common.User;
+import com.multipleUserChat.server.service.ManageServerConnectClientThreads;
+import com.multipleUserChat.server.service.ServerConnectClientThread;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -54,5 +56,20 @@ public class ClientService {
             throw new RuntimeException(e);
         }
         return flag;
+    }
+
+    public void onlineFriendList(){
+        //发送用户列表请求
+        Message message = new Message();
+        message.setMsgType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
+        //向客户端发送请求
+        ClientConnectServerThread thread = ManageClientConnectServerThread.get(user.getUsrId());
+        Socket socket = thread.getSocket();
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
