@@ -32,14 +32,16 @@ public class ClientConnectServerThread extends Thread {
                 Message message = (Message) ois.readObject();
                 //根据消息类型对获取的信息进行处理
                 //1.用户列表数据返回
-                if(message.getMsgType().equals(MessageType.MESSAGE_RET_ONLINE_FRIEND)){
+                if (message.getMsgType().equals(MessageType.MESSAGE_RET_ONLINE_FRIEND)) {
                     String[] data = message.getContent().split(" ");
                     System.out.println("\n==========当前在线用户列表=========");
                     for (String datum : data) {
                         //输出用户列表
-                        System.out.println("用户："+datum);
+                        System.out.println("用户：" + datum);
                     }
-                }else {
+                } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE)) {
+                    System.out.println("\n" + message.getSender() + " 对" + message.getReceiver() + " 说：" + message.getContent());
+                } else {
 
                     System.out.println("其他暂未处理~~~");
                 }
