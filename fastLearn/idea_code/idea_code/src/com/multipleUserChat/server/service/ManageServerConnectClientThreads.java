@@ -16,4 +16,13 @@ public class ManageServerConnectClientThreads {
     public static ServerConnectClientThread getThread(String userId) {
         return hashMap.get(userId);
     }
+
+    public static String getOnlineUser() {
+        String userList = "";
+        for (String key : hashMap.keySet()) {
+            userList += key + " ";
+        }
+        return userList;
+    }
+
 }

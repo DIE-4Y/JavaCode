@@ -61,6 +61,7 @@ public class ClientService {
     public void onlineFriendList(){
         //发送用户列表请求
         Message message = new Message();
+        message.setSender(user.getUsrId());
         message.setMsgType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
         //向客户端发送请求
         ClientConnectServerThread thread = ManageClientConnectServerThread.get(user.getUsrId());

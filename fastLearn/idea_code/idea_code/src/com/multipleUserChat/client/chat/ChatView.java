@@ -43,7 +43,8 @@ public class ChatView {
                             key = Util.getChar();
                             switch (key) {
                                 case '1':
-                                    System.out.println("在线用户");
+                                    //获取在线用户列表
+                                    clientService.onlineFriendList();
                                     break;
                                 case '2':
                                     System.out.println("群发消息");
