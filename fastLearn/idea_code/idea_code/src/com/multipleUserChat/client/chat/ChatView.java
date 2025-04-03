@@ -3,7 +3,7 @@ package com.multipleUserChat.client.chat;
 import com.multipleUserChat.client.service.FileClientService;
 import com.multipleUserChat.client.service.MessageClientService;
 import com.multipleUserChat.client.service.UserClientService;
-import com.multipleUserChat.client.utils.Util;
+import com.multipleUserChat.utils.Util;
 
 /**
  * 客户端主界面

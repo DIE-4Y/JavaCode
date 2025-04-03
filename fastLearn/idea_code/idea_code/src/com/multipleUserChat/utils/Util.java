@@ -1,4 +1,4 @@
-package com.multipleUserChat.client.utils;
+package com.multipleUserChat.utils;
 
 import java.util.Scanner;
 

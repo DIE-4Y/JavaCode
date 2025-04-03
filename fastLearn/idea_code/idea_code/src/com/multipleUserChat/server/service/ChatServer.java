@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChatServer {
-    ServerSocket serverSocket;
-
+    private ServerSocket serverSocket;
     private static HashMap<String, User> validUsers = new HashMap<>();
     //可使用ConcurrentHashMap--线程安全
     //private static ConcurrentHashMap<String, User> validUsers = new ConcurrentHashMap<>();
@@ -28,9 +27,11 @@ public class ChatServer {
         validUsers.put("紫霞仙子", new User("紫霞仙子", "1111"));
         validUsers.put("至尊宝", new User("至尊宝", "1111"));
         validUsers.put("许褚", new User("许褚", "1111"));
+
     }
 
     public ChatServer() {
+        new Thread(new SendNewsToAllService()).start();
         while (true) {
             try {
                 System.out.println("正在监听9999端口");
@@ -84,4 +85,5 @@ public class ChatServer {
         }
         return true;
     }
+
 }
