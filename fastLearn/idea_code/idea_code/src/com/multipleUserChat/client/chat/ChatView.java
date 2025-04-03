@@ -1,5 +1,6 @@
 package com.multipleUserChat.client.chat;
 
+import com.multipleUserChat.client.service.FileClientService;
 import com.multipleUserChat.client.service.MessageClientService;
 import com.multipleUserChat.client.service.UserClientService;
 import com.multipleUserChat.client.utils.Util;
@@ -13,6 +14,7 @@ public class ChatView {
     private char key;
     private UserClientService userClientService = new UserClientService();
     private MessageClientService messageClientService = new MessageClientService();
+    private FileClientService fileClientService =new FileClientService();
 
     public static void main(String[] args) {
         new ChatView().mainMenu();
@@ -61,7 +63,13 @@ public class ChatView {
                                     messageClientService.sendMessageToOne(userId, receiverId, content);
                                     break;
                                 case '4':
-                                    System.out.println("发送文件");
+                                    System.out.print("请输入文件发送对象Id>>:");
+                                    receiverId = Util.getString(20);
+                                    System.out.print("请输入文件当前目录>>:");
+                                    String srcFilePath = Util.getString(50);
+                                    System.out.print("请输入文件目标存储目录>>:");
+                                    String destFilePath = Util.getString(50);
+                                    fileClientService.sendFileToOne(userId, receiverId, srcFilePath, destFilePath);
                                     break;
                                 case '9':
                                     userClientService.userExit();

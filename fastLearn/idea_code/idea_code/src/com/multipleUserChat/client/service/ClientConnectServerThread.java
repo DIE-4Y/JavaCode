@@ -3,6 +3,9 @@ package com.multipleUserChat.client.service;
 import com.multipleUserChat.common.Message;
 import com.multipleUserChat.common.MessageType;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
@@ -43,6 +46,11 @@ public class ClientConnectServerThread extends Thread {
                     System.out.println("\n" + message.getSender() + " 对" + message.getReceiver() + " 说：" + message.getContent());
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE_TO_ALL)) {
                     System.out.println(message.getSender()+" 对大家说："+message.getContent());
+                } else if (message.getMsgType().equals(MessageType.MESSAGE_FILE_MESSAGE)) {
+                    System.out.println("\n"+message.getSender()+" 向 "+message.getReceiver()+" 发送了一个文件到"+message.getDestFilePath());
+                    FileOutputStream fos = new FileOutputStream(new File(message.getDestFilePath()));
+                    fos.write(message.getFileBytes());
+                    fos.close();
                 } else {
                     System.out.println("其他暂未处理~~~");
                 }
