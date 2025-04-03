@@ -41,8 +41,9 @@ public class ClientConnectServerThread extends Thread {
                     }
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE)) {
                     System.out.println("\n" + message.getSender() + " 对" + message.getReceiver() + " 说：" + message.getContent());
+                } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE_TO_ALL)) {
+                    System.out.println(message.getSender()+" 对大家说："+message.getContent());
                 } else {
-
                     System.out.println("其他暂未处理~~~");
                 }
             } catch (Exception e) {

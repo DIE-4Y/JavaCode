@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class ServerConnectClientThread extends Thread {
     private String userId;
@@ -36,6 +37,19 @@ public class ServerConnectClientThread extends Thread {
                     ManageServerConnectClientThreads.removeThread(message.getSender());
                     socket.close();
                     break;
+                } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE_TO_ALL)) {
+                    System.out.println(message.getSender()+" 正在群发消息："+message.getContent());
+                    HashMap<String, ServerConnectClientThread> hashMap = ManageServerConnectClientThreads.getHashMap();
+                    for (String userId :hashMap.keySet()) {
+                        if(!userId.equals(message.getSender())){
+                            ServerConnectClientThread thread = ManageServerConnectClientThreads.getThread(userId);
+                            Socket userSocket = thread.getSocket();
+                            ObjectOutputStream oos = new ObjectOutputStream(userSocket.getOutputStream());
+                            oos.writeObject(message);
+                        }
+                    }
+
+
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE)) {
                     //私聊消息
                     System.out.println(message.getSender()+"正在和"+message.getReceiver()+"私聊");

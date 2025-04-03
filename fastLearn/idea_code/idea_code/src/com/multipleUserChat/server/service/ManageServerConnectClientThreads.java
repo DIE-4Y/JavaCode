@@ -28,4 +28,8 @@ public class ManageServerConnectClientThreads {
     public static void removeThread(String userId){
         hashMap.remove(userId);
     }
+
+    public static HashMap<String, ServerConnectClientThread> getHashMap() {
+        return hashMap;
+    }
 }

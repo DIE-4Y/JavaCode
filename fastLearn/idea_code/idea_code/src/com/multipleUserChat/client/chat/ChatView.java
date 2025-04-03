@@ -49,13 +49,15 @@ public class ChatView {
                                     userClientService.onlineFriendList();
                                     break;
                                 case '2':
-                                    System.out.println("群发消息");
+                                    System.out.print("请输入群聊内容>>:");
+                                    String content = Util.getString(100);
+                                    messageClientService.sendMessageToAll(userId, content);
                                     break;
                                 case '3':
                                     System.out.print("请输入私聊对象>>:");
                                     String receiverId = Util.getString(20);
                                     System.out.print("请输入私聊内容>>:");
-                                    String content = Util.getString(50);
+                                    content = Util.getString(100);
                                     messageClientService.sendMessageToOne(userId, receiverId, content);
                                     break;
                                 case '4':
