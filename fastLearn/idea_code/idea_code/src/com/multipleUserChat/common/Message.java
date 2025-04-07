@@ -1,7 +1,10 @@
 package com.multipleUserChat.common;
 
+import com.sun.xml.internal.ws.api.model.MEP;
+
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.Vector;
 
 /**
  * 通信时的消息对象
@@ -13,12 +16,27 @@ public class Message implements Serializable {
     private String content;
     private String sendTime;
     private String msgType;//消息类型
-
-
     private byte[] fileBytes;
     private int len = 0;
     private String srcFilePath;
     private String destFilePath;
+    private Vector<Message> leftMessage = new Vector<>();//留言
+
+    public void removeLeftMessage(Message message) {
+        leftMessage.remove(message);
+    }
+
+    public void addLeftMessage(Message message) {
+        leftMessage.add(message);
+    }
+
+    public Vector<Message> getLeftMessage() {
+        return leftMessage;
+    }
+
+    public void setLeftMessage(Vector<Message> leftMessage) {
+        this.leftMessage = leftMessage;
+    }
 
     public byte[] getFileBytes() {
         return fileBytes;

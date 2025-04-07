@@ -34,16 +34,30 @@ public class ServerConnectClientThread extends Thread {
                     oos.writeObject(message1);
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_CLIENT_EXIT)) {
                     System.out.println(message.getSender() + " 正在退出~~");
-                    //关闭对应socket 移除对应线程并关闭
+                    //退出登录 关闭对应socket 移除对应线程并关闭
                     ManageServerConnectClientThreads.removeThread(message.getSender());
                     socket.close();
                     break;
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_FILE_MESSAGE)) {
                     System.out.println(message.getSender() + " 正在向 " + message.getReceiver() + " 发送数据~~");
                     //文件转发
-                    ObjectOutputStream oos = new ObjectOutputStream(ManageServerConnectClientThreads.getThread(message.getReceiver()).socket.getOutputStream());
-                    oos.writeObject(message);
+                    ServerConnectClientThread receiverThread = ManageServerConnectClientThreads.getThread(message.getReceiver());
+                    if(receiverThread != null){
+                        ObjectOutputStream oos = new ObjectOutputStream(receiverThread.socket.getOutputStream());
+                        oos.writeObject(message);
+                    }else {
+                        //对象不在直接留言将信息存入leftMessage
+                        ChatServer.addLeftMessage(message);
+                        Message systemMessage = new Message();
+                        systemMessage.setSender("服务器");
+                        systemMessage.setReceiver(userId);
+                        systemMessage.setMsgType(MessageType.MESSAGE_COMMON_MESSAGE);
+                        systemMessage.setContent("收信人不在，已将消息加入留言箱，收信人上线自动接收");
+                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                        oos.writeObject(systemMessage);
+                    }
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE_TO_ALL)) {
+                    //群发消息
                     System.out.println(message.getSender() + " 正在群发消息：" + message.getContent());
                     HashMap<String, ServerConnectClientThread> hashMap = ManageServerConnectClientThreads.getHashMap();
                     for (String userId : hashMap.keySet()) {
@@ -54,19 +68,30 @@ public class ServerConnectClientThread extends Thread {
                             oos.writeObject(message);
                         }
                     }
-
-
                 } else if (message.getMsgType().equals(MessageType.MESSAGE_COMMON_MESSAGE)) {
-                    //私聊消息
-                    System.out.println(message.getSender() + "正在和" + message.getReceiver() + "私聊");
                     //获取收信人的socket并转发消息
                     ServerConnectClientThread thread = ManageServerConnectClientThreads.getThread(message.getReceiver());
-                    Socket receiverSocket = thread.getSocket();
-                    try {
-                        ObjectOutputStream outputStream = new ObjectOutputStream(receiverSocket.getOutputStream());
-                        outputStream.writeObject(message);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    if (thread != null){
+                        //私聊消息
+                        System.out.println(message.getSender() + "正在和" + message.getReceiver() + "私聊");
+                        //收信人的线程存在则发送
+                        Socket receiverSocket = thread.getSocket();
+                        try {
+                            ObjectOutputStream outputStream = new ObjectOutputStream(receiverSocket.getOutputStream());
+                            outputStream.writeObject(message);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        //收信人线程不存在则在留言中添加
+                        ChatServer.addLeftMessage(message);
+                        Message systemMessage = new Message();
+                        systemMessage.setSender("服务器");
+                        systemMessage.setReceiver(userId);
+                        systemMessage.setMsgType(MessageType.MESSAGE_COMMON_MESSAGE);
+                        systemMessage.setContent("收信人不在，已将消息加入留言箱，收信人上线自动接收");
+                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                        oos.writeObject(systemMessage);
                     }
 
                 }
