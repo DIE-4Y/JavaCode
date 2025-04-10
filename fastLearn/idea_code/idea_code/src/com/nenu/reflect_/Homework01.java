@@ -9,8 +9,10 @@ import java.lang.reflect.Method;
  */
 public class Homework01 {
     public static void main(String[] args) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        //获取PrivateTest类
+        //获取PrivateTest类 2种方法获取对应的Class对象
         Class<?> testClass = Class.forName("com.nenu.reflect_.PrivateTest");
+        //Class<PrivateTest> testClass = PrivateTest.class;
+
         //创建一个PrivateTest对象实例
         Object o = testClass.newInstance();
         //设置PrivateTest的name属性 由于是私有属性只能用getDeclaredField
