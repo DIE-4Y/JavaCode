@@ -1,10 +1,6 @@
 package com.nenu.jdbc_;
-import com.mysql.jdbc.Driver;
-import org.junit.Test;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
