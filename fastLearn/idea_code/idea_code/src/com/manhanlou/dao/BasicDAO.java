@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 基础Dao 封装Dao的通用的方法
  */
-public class BasicDao<T> {
+public class BasicDAO<T> {
     private QueryRunner queryRunner = new QueryRunner();
 
     //dml操作 添加、删除、修改

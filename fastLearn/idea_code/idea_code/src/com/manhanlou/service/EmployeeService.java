@@ -1,10 +1,10 @@
 package com.manhanlou.service;
 
-import com.manhanlou.dao.EmployeeDao;
+import com.manhanlou.dao.EmployeeDAO;
 import com.manhanlou.domain.Employee;
 
 public class EmployeeService {
-    private EmployeeDao employeeDao = new EmployeeDao();
+    private EmployeeDAO employeeDao = new EmployeeDAO();
 
     //根据密码和id获取雇员对象
     public Employee getEmployeeByIdAndPwd(String empId, String password) {

@@ -1,14 +1,19 @@
 package com.manhanlou.view;
 
+import com.manhanlou.domain.DiningTable;
 import com.manhanlou.domain.Employee;
+import com.manhanlou.service.DiningTableService;
 import com.manhanlou.service.EmployeeService;
 import com.manhanlou.utils.Util;
+
+import java.util.List;
 
 public class HMLView {
 
     private boolean loop = true;
     private char key;
     private EmployeeService employeeService = new EmployeeService();
+    private DiningTableService dts = new DiningTableService();
 
     public static void main(String[] args) {
         new HMLView().mainMenu();
@@ -29,7 +34,7 @@ public class HMLView {
                     String password = Util.getString();
                     Employee employee = employeeService.getEmployeeByIdAndPwd(empId, password);
                     if (employee != null) {
-                        System.out.println("\n============登录成功("+employee.getName()+")============");
+                        System.out.println("\n============登录成功(" + employee.getName() + ")============");
                         while (loop) {
                             System.out.println("\n============满汉楼二级菜单============");
                             System.out.println("\t\t1 显示餐桌状态");
@@ -43,8 +48,7 @@ public class HMLView {
                             key = Util.getChar();
                             switch (key) {
                                 case '1':
-                                    System.out.println("\n============显示餐桌状态============");
-
+                                    listDiningTable();
                                     break;
                                 case '2':
                                     System.out.println("\n============预定餐桌============");
@@ -85,5 +89,15 @@ public class HMLView {
                     break;
             }
         }
+    }
+
+    public void listDiningTable() {
+        System.out.println("\n============显示餐桌状态============");
+        List<DiningTable> list = dts.list();
+        System.out.println("\n餐桌编号\t\t餐桌状态");
+        for (DiningTable diningTable : list) {
+            System.out.println(diningTable);
+        }
+        System.out.println("\n============餐桌状态显示完毕============");
     }
 }
