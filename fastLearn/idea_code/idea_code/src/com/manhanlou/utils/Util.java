@@ -1,5 +1,8 @@
 package com.manhanlou.utils;
 
+
+import org.junit.Test;
+
 import java.util.Scanner;
 
 public class Util {
@@ -21,7 +24,7 @@ public class Util {
     }
 
 
-    public static String getString(){
+    public static String getString() {
         Scanner scanner = new Scanner(System.in);
         return scanner.next();
     }
@@ -34,4 +37,19 @@ public class Util {
         }
         return scanner.nextInt();
     }
+
+    public static char readConfirm() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("确认你的选择(Y/N)");
+        while (true) {
+            String s = scanner.next();
+            char c = s.toUpperCase().charAt(0);
+            if (c == 'Y' || c == 'N') {
+                return c;
+            } else {
+                System.out.println("选择错误 请重新输入");
+            }
+        }
+    }
+
 }

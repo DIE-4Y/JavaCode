@@ -51,8 +51,7 @@ public class HMLView {
                                     listDiningTable();
                                     break;
                                 case '2':
-                                    System.out.println("\n============预定餐桌============");
-
+                                    orderTable();
                                     break;
                                 case '3':
                                     System.out.println("\n============显示所有菜品============");
@@ -100,4 +99,41 @@ public class HMLView {
         }
         System.out.println("\n============餐桌状态显示完毕============");
     }
+
+    public void orderTable(){
+        System.out.println("\n============预定餐桌============");
+        System.out.print("请输入你想预定的餐桌编号（-1退出）>>:");
+        int num = Util.getNum();
+        if(num == -1){
+            return;
+        }
+        //二次确认是否预定餐桌
+        System.out.println("请确认是否要预定("+num+")号餐桌");
+        char c = Util.readConfirm();
+        if(c=='Y'){
+            return;
+        }
+        //查看餐桌是否存在且是否为空
+        DiningTable table = dts.getTable();
+        if(table==null){
+            System.out.println("该餐桌不存在");
+            return;
+        }
+        if(!"空".equals(table.getState())){
+            System.out.println("该餐桌已被预订");
+            return;
+        }
+        //成功预定餐桌
+        System.out.println("\n============正在预定============");
+        System.out.print("请输入预定人姓名>>:");
+        String orderName = Util.getString();
+        System.out.print("请输入预定人电话>>:");
+        String orderTel = Util.getString();
+        if (dts.bookTable(num, orderName, orderTel)){
+            System.out.println("\n============预定成功============");
+        }else {
+            System.out.println("\n============预定失败============");
+        }
+    }
+
 }
