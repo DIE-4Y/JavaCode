@@ -29,4 +29,10 @@ public class DiningTableService {
         int update = diningTableDAO.update("update diningTable set state =? where id=?", state, id);
         return update > 0;
     }
+
+    //修改餐桌状态为空
+    public boolean updateTableNull(int diningTableId) {
+        int update = diningTableDAO.update("update diningTable set state='空' ,orderName='',orderTel = '' where id=?", diningTableId);
+        return update > 0;
+    }
 }

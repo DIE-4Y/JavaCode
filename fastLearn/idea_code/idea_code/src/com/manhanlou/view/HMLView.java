@@ -69,7 +69,7 @@ public class HMLView {
                                     listBill();
                                     break;
                                 case '6':
-                                    System.out.println("\n============结账============");
+                                    checkout();
                                     break;
                                 case '9':
                                     System.out.println("正在退出~~");
@@ -117,7 +117,7 @@ public class HMLView {
         //二次确认是否预定餐桌
         System.out.println("请确认是否要预定(" + num + ")号餐桌");
         char c = Util.readConfirm();
-        if (c == 'Y') {
+        if (c == 'N') {
             return;
         }
         //查看餐桌是否存在且是否为空
@@ -170,12 +170,12 @@ public class HMLView {
         }
         System.out.print("请输入菜品>>:");
         int menuId = -1;
-        while (true){
+        while (true) {
             menuId = Util.getNum();
             Menu menu = menuService.getMenuById(menuId);
             if (menu == null) {
                 System.out.println(menuId + "号菜品不存在，请重新输入~~");
-            }else {
+            } else {
                 break;
             }
         }
@@ -190,11 +190,11 @@ public class HMLView {
                 System.out.println("数量需要大于0，请重新输入~~");
             }
         }
-        System.out.println("确定要点"+num+"份 "+menuService.getMenuById(menuId).getName()+"吗？");
+        System.out.println("确定要点" + num + "份 " + menuService.getMenuById(menuId).getName() + "吗？");
         char c = Util.readConfirm();
-        if(c == 'N'){
+        if (c == 'N') {
             return;
-        }else {
+        } else {
             System.out.println("正在退出~~");
         }
         if (billService.orderMenu(menuId, num, diningTableId)) {
@@ -205,7 +205,7 @@ public class HMLView {
     }
 
     //查看所有账单
-    public void listBill(){
+    public void listBill() {
         System.out.println("\n============查看账单============");
         List<Bill> bills = billService.list();
         System.out.println("编号\t菜品号\t菜品量\t金额\t\t桌号\t日期\t\t\t\t\t状态");
@@ -213,5 +213,46 @@ public class HMLView {
             System.out.println(bill);
         }
         System.out.println("\n============显示完毕============");
+    }
+
+    //结账
+    public void checkout() {
+        System.out.println("\n============结账============");
+        System.out.print("请输入结账餐桌号（-1退出）>>:");
+        int diningTableId = Util.getNum();
+        if (diningTableId == -1) {
+            System.out.println("正在退出~~");
+            return;
+        }
+        DiningTable table = dts.getTableById(diningTableId);
+        //该餐桌是否存在
+        if (table == null) {
+            System.out.println("没有该餐桌~~");
+            return;
+        }
+        //查看是否能结账
+        Bill bill = billService.getByTableId(diningTableId);
+        if (bill == null || !("未结账".equals(bill.getState()))) {
+            System.out.println("该餐桌没有需要支付的订单");
+            return;
+        }
+        //开始结账
+        System.out.print("请输入支付方式(现金/微信/支付宝)>>:");
+        String payType = Util.getString();
+        System.out.print("确定是否要结账（Y/N）>>:");
+        char c = Util.readConfirm();
+        if (c == 'N') {
+            System.out.println("取消结账正在退出~~");
+            return;
+        }
+        if (billService.updateBillState(diningTableId, payType)) {
+            //结账成功修改餐桌信息
+            if (dts.updateTableNull(diningTableId)) {
+                System.out.println("============结账成功============");
+            }
+        } else {
+            System.out.println("支付失败，请稍后再试~~");
+        }
+
     }
 }

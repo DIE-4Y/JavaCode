@@ -26,7 +26,18 @@ public class BillService {
     }
 
     //查看所有账单功能
-    public List<Bill> list(){
-        return billDAO.queryMulti("select * from bill",Bill.class);
+    public List<Bill> list() {
+        return billDAO.queryMulti("select * from bill", Bill.class);
+    }
+
+    //获取某个账单
+    public Bill getByTableId(int diningTableId) {
+        return billDAO.querySingle("select * from bill where diningTable=? and state ='未结账' limit 0, 1", Bill.class, diningTableId);
+    }
+
+    //修改账单状态
+    public boolean updateBillState(int diningTableId, String state) {
+        int update = billDAO.update("update bill set state=? where diningTable=? and state='未结账'", state, diningTableId);
+        return update > 0;
     }
 }
