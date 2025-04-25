@@ -3,6 +3,7 @@ package com.manhanlou.view;
 import com.manhanlou.domain.DiningTable;
 import com.manhanlou.domain.Employee;
 import com.manhanlou.domain.Menu;
+import com.manhanlou.service.BillService;
 import com.manhanlou.service.DiningTableService;
 import com.manhanlou.service.EmployeeService;
 import com.manhanlou.service.MenuService;
@@ -17,6 +18,7 @@ public class HMLView {
     private EmployeeService employeeService = new EmployeeService();
     private DiningTableService dts = new DiningTableService();
     private MenuService menuService = new MenuService();
+    private BillService billService = new BillService();
 
     public static void main(String[] args) {
         new HMLView().mainMenu();
@@ -60,7 +62,7 @@ public class HMLView {
                                     listMenu();
                                     break;
                                 case '4':
-                                    System.out.println("\n============点餐服务============");
+                                    orderMenu();
                                     break;
                                 case '5':
                                     System.out.println("\n============查看账单============");
@@ -118,7 +120,7 @@ public class HMLView {
             return;
         }
         //查看餐桌是否存在且是否为空
-        DiningTable table = dts.getTable();
+        DiningTable table = dts.getTableById(num);
         if (table == null) {
             System.out.println("该餐桌不存在");
             return;
@@ -141,7 +143,7 @@ public class HMLView {
     }
 
     //显示菜品信息
-    public void listMenu(){
+    public void listMenu() {
         System.out.println("\n============显示菜品信息============");
         List<Menu> list = menuService.list();
         System.out.println("id\t\t菜品名\t\t类别\t\t价格");
@@ -149,5 +151,55 @@ public class HMLView {
             System.out.println(menu);
         }
         System.out.println("\n============菜品信息显示完毕============");
+    }
+
+    //点餐
+    public void orderMenu() {
+        System.out.println("\n============正在点餐============");
+        System.out.print("请输入餐桌号（-1退出）>>:");
+        int diningTableId = Util.getNum();
+        if (diningTableId == -1) {
+            System.out.println("正在退出~~");
+            return;
+        }
+        DiningTable table = dts.getTableById(diningTableId);
+        if (table == null) {
+            System.out.println(diningTableId + "号餐桌不存在~~");
+            return;
+        }
+        System.out.print("请输入菜品>>:");
+        int menuId = -1;
+        while (true){
+            menuId = Util.getNum();
+            Menu menu = menuService.getMenuById(menuId);
+            if (menu == null) {
+                System.out.println(menuId + "号菜品不存在，请重新输入~~");
+            }else {
+                break;
+            }
+        }
+
+        System.out.print("请输入菜品数量>>:");
+        int num = 0;
+        while (true) {
+            num = Util.getNum();
+            if (num > 0) {
+                break;
+            } else {
+                System.out.println("数量需要大于0，请重新输入~~");
+            }
+        }
+        System.out.println("确定要点"+num+"份 "+menuService.getMenuById(menuId).getName()+"吗？");
+        char c = Util.readConfirm();
+        if(c == 'N'){
+            return;
+        }else {
+            System.out.println("正在退出~~");
+        }
+        if (billService.orderMenu(menuId, num, diningTableId)) {
+            System.out.println("\n============点餐成功============");
+        } else {
+            System.out.println("\n============点餐失败============");
+        }
     }
 }
