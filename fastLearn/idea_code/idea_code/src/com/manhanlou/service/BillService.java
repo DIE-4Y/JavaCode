@@ -1,7 +1,9 @@
 package com.manhanlou.service;
 
 import com.manhanlou.dao.BillDAO;
+import com.manhanlou.domain.Bill;
 
+import java.util.List;
 import java.util.UUID;
 
 public class BillService {
@@ -21,5 +23,10 @@ public class BillService {
         }
         //2.更新餐桌状态
         return dts.updateState("用餐中", diningTable);
+    }
+
+    //查看所有账单功能
+    public List<Bill> list(){
+        return billDAO.queryMulti("select * from bill",Bill.class);
     }
 }

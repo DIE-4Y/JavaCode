@@ -1,5 +1,6 @@
 package com.manhanlou.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Bill {
@@ -9,7 +10,7 @@ public class Bill {
     private Integer nums;
     private Double price;
     private Integer diningTable;
-    private Date dateTime;
+    private LocalDateTime billDate;
     private String state;
 
     public Integer getId() {
@@ -60,12 +61,12 @@ public class Bill {
         this.diningTable = diningTable;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public LocalDateTime getbillDate() {
+        return billDate;
     }
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
+    public void setbillDate(LocalDateTime billDate) {
+        this.billDate = billDate;
     }
 
     public String getState() {
@@ -79,14 +80,25 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(Integer id, String billId, Integer menuId, Integer nums, Double price, Integer diningTable, Date dateTime, String state) {
+    public Bill(Integer id, String billId, Integer menuId, Integer nums, Double price, Integer diningTable, LocalDateTime billDate, String state) {
         this.id = id;
         this.billId = billId;
         this.menuId = menuId;
         this.nums = nums;
         this.price = price;
         this.diningTable = diningTable;
-        this.dateTime = dateTime;
+        this.billDate = billDate;
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return id + "\t\t" +
+                menuId + "\t\t" +
+                nums + "\t\t" +
+                price + "\t\t" +
+                diningTable + "\t\t" +
+                billDate + "\t\t" +
+                state;
     }
 }

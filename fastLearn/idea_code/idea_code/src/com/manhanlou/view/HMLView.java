@@ -1,5 +1,6 @@
 package com.manhanlou.view;
 
+import com.manhanlou.domain.Bill;
 import com.manhanlou.domain.DiningTable;
 import com.manhanlou.domain.Employee;
 import com.manhanlou.domain.Menu;
@@ -65,7 +66,7 @@ public class HMLView {
                                     orderMenu();
                                     break;
                                 case '5':
-                                    System.out.println("\n============查看账单============");
+                                    listBill();
                                     break;
                                 case '6':
                                     System.out.println("\n============结账============");
@@ -201,5 +202,16 @@ public class HMLView {
         } else {
             System.out.println("\n============点餐失败============");
         }
+    }
+
+    //查看所有账单
+    public void listBill(){
+        System.out.println("\n============查看账单============");
+        List<Bill> bills = billService.list();
+        System.out.println("编号\t菜品号\t菜品量\t金额\t\t桌号\t日期\t\t\t\t\t状态");
+        for (Bill bill : bills) {
+            System.out.println(bill);
+        }
+        System.out.println("\n============显示完毕============");
     }
 }
