@@ -1,4 +1,4 @@
-package edu.nenu;
+package edu.nenu.array;
 
 import java.util.ArrayList;
 import java.util.Arrays;

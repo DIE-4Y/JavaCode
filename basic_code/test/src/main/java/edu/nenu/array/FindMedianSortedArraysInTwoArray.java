@@ -1,4 +1,4 @@
-package edu.nenu;
+package edu.nenu.array;
 
 public class FindMedianSortedArraysInTwoArray {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package edu.nenu;
+package edu.nenu.array;
 
 public class RotateArray {
 	public static void main(String[] args) {
