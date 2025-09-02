@@ -31,23 +31,29 @@ public class ThreeSumOfZero {
 		// 排序，防止后边出现重复
 		Arrays.sort(nums);
 		for (int first = 0; first < nums.length; ++first) {
-			if (first == 0 || nums[first] != nums[first - 1]) {
-				for (int second = first + 1; second < nums.length; ++second) {
-					// 第二层进行操作时不能和上一次的数相同除非它刚好是第一层的下一个（防止重复）
-					if (second == first + 1 || nums[second] != nums[second - 1]) {
-						for (int third = second + 1; third < nums.length; ++third) {
-							// 和第二层原因相同
-							if (third == second + 1 || nums[third] != nums[third - 1]) {
-								if (nums[first] + nums[second] + nums[third] == 0) {
-									List<Integer> list = new ArrayList<>();
-									list.add(nums[first]);
-									list.add(nums[second]);
-									list.add(nums[third]);
-									res.add(list);
-								}
-							}
-						}
-					}
+			// 防止重复，将可能重复的情况跳过
+			if (first != 0 && nums[first] == nums[first - 1]) {
+				continue;
+			}
+			int third = nums.length - 1;
+			int target = -nums[first];
+			for (int second = first + 1; second < nums.length; ++second) {
+				// 防止重复，将可能重复的情况跳过
+				if (second != first + 1 && nums[second] == nums[second - 1]) {
+					continue;
+				}
+				// 第三重需要减少运行次数，可采用倒序，和第二层形成双指针，将时间复杂度降为O(n^2)
+				while (third > second && nums[third] + nums[second] > target) {
+					--third;
+				}
+				// 如果指针重合，说明没有解
+				if (third == second) {
+					break;
+				}
+				// 判断是解是否满足条件
+				if (nums[second] + nums[third] == target) {
+					List<Integer> list = Arrays.asList(nums[first], nums[second], nums[third]);
+					res.add(list);
 				}
 			}
 		}
