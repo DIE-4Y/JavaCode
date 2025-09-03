@@ -29,7 +29,7 @@ public class FindAllAlienWords {
 		int[] sChars = new int[26];
 		int[] pChars = new int[26];
 		List<Integer> ans = new ArrayList<>();
-		// 将p串遍历看得到p串的字母个数
+		// 遍历p串得到一个窗口
 		for (int i = 0; i < plen; ++i) {
 			++pChars[p.charAt(i) - 'a'];
 			++sChars[s.charAt(i) - 'a'];
