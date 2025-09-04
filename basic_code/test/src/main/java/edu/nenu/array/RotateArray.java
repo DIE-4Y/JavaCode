@@ -7,13 +7,43 @@ public class RotateArray {
 		rotate(nums, k);
 	}
 
+	/**
+	 * 三步颠倒法旋转数组
+	 * 
+	 * @param nums
+	 *            数组
+	 * @param k
+	 *            位移步长
+	 * @author chenshanquan
+	 * @date 2025/9/4 14:41
+	 * @return void
+	 **/
 	public static void rotate(int[] nums, int k) {
-		int[] result = new int[nums.length];
-		for (int i = 0; i < nums.length; ++i) {
-			result[(i + k) % nums.length] = nums[i];
-		}
-		for (int i = 0; i < nums.length; i++) {
-			nums[i] = result[i];
+		reverse(nums, 0, nums.length - 1);
+		reverse(nums, 0, k - 1);
+		reverse(nums, k, nums.length - 1);
+	}
+
+	/**
+	 * 反转数组的指定下标间的元素
+	 * 
+	 * @param nums
+	 *            数组
+	 * @param start
+	 *            开始下标
+	 * @param end
+	 *            结束下标
+	 * @author chenshanquan
+	 * @date 2025/9/4 14:40
+	 * @return void
+	 **/
+	public static void reverse(int[] nums, int start, int end) {
+		while (start < end) {
+			int temp = nums[start];
+			nums[start] = nums[end];
+			nums[end] = temp;
+			++start;
+			--end;
 		}
 	}
 }
